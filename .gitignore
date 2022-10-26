@@ -10,9 +10,9 @@ coverage
 .next/
 out/
 build
-
 # other
 dist/
+volumes
 
 # misc
 .DS_Store
