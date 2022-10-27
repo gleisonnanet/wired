@@ -18,7 +18,9 @@ services:
       - "33060:33060"
     working_dir: /var/lib/mysql
     volumes:
-      - "./docker/volumes/mysql:/var/lib/mysql"    
+      - "./docker/volumes/mysql:/var/lib/mysql"   
+    networks:
+      - app_network 
 
   app-host:
     build:
@@ -37,7 +39,8 @@ services:
       - "4000:4000"
       - "20000-20020:20000-20020/tcp"
       - "20000-20020:20000-20020/udp" 
-
+    networks:
+      - app_network 
 
 
   app-client:
@@ -55,6 +58,8 @@ services:
     tty: true
     ports:
       - "3000:3000"
+    networks:
+      - app_network 
     
   localstack:
     container_name: "localstack"
@@ -74,6 +79,8 @@ services:
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./docker/volumes/localstack}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - app_network 
     
 
 networks:

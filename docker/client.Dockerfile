@@ -16,6 +16,7 @@ RUN \
  
 RUN npm install yarn -g
 RUN yarn  install
+RUN yarn deploy
 EXPOSE 3000
 CMD [ "yarn", "dev" ]  
 
