@@ -1,8 +1,27 @@
 version: "3"
-volumes:
-  share:
-    external: true
+
 services:
+  client:
+    container_name: client
+    build:
+      context: .
+      dockerfile: ./Client.Dockerfile
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - app_network
+  host:
+    container_name: host
+    build:
+      context: .
+      dockerfile: ./Host.Dockerfile
+    restart: always
+    ports:
+      - 3001:3001
+    networks:
+      - app_network
+ 
   mysql-server:
     restart: always
     # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
@@ -19,56 +38,6 @@ services:
     working_dir: /var/lib/mysql
     volumes:
       - "./docker/volumes/mysql:/var/lib/mysql"    
-
-  app-host:
-    build:
-      context: .
-      dockerfile: ./docker/client.Dockerfile
-    env_file:
-      - ./docker/.env
-    links:
-      - mysql-server    
-    depends_on:
-      - mysql-server
-    volumes:
-      - ".:/app:rw"
-    tty: true
-    ports:
-      - "4000:4000"
-      - "20000-20020:20000-20020/tcp"
-      - "20000-20020:20000-20020/udp" 
-
-
-
-  app-client:
-    build:
-      context: .
-      dockerfile: ./docker/client.Dockerfile
-    env_file:
-      - ./docker/.env
-    links:
-      - app-host    
-    depends_on:
-      - app-host
-    volumes:
-      - ".:/app:rw"
-    tty: true
-    ports:
-      - "3000:3000"
-    
-  
-  
 networks:
   app_network:
     external: true
-  
- 
-    
-
-
-
-
-
-
-
- 
