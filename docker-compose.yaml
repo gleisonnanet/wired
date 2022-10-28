@@ -25,7 +25,7 @@ services:
   app-host:
     build:
       context: .
-      dockerfile: ./docker/client.Dockerfile
+      dockerfile: ./docker/host.Dockerfile
     env_file:
       - ./docker/.env
     links:
