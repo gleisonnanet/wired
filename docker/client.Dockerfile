@@ -13,10 +13,10 @@ RUN \
 	set -x \
 	&& apt-get update \
 	&& apt-get install -y nodejs
- 
+
 RUN npm install yarn -g
-RUN yarn  install
-RUN yarn deploy
+RUN yarn  install --no-cache
+# RUN yarn run deploy --no-cache
 EXPOSE 3000
 CMD [ "yarn", "dev" ]  
 
